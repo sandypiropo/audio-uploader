@@ -1,43 +1,45 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-<meta charset="UTF-8">
-<title>Uploader de Áudio para Blogger</title>
-<style>
-  body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; }
-  h2 { color: #333; }
-  input, button { margin: 10px 0; }
-  #audioPreview { margin-top: 20px; }
-  #htmlCode { margin-top: 20px; background: #f4f4f4; padding: 10px; border-radius: 5px; font-family: monospace; white-space: pre-wrap; }
-</style>
+    <meta charset="UTF-8">
+    <title>Audio Uploader</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
-<h2>Uploader de Áudio para Blogger</h2>
+    <div class="navbar">
+        <h2 class="titulo">Audio Uploader</h2>
+        <div class="right-items">
+            <h2 class="sobre">Sobre</h2>
+            <h2 class="instrucoes">?</h2>
+        </div>
+    </div>
 
-<input type="file" id="audioFile" accept="audio/*"><br>
-<button onclick="uploadAudio()">Enviar e Gerar Código</button>
+    <input type="file" id="audioFile" accept="audio/*"><br>
+    <button onclick="uploadAudio()">Enviar e Gerar Código</button>
 
-<div id="audioPreview"></div>
+    <div id="audioPreview"></div>
 
-<h3>Código HTML para colar no Blogger:</h3>
-<pre id="htmlCode"></pre>
-<button onclick="copyCode()">Copiar Código</button>
+    <h3>Código HTML para colar no Blogger:</h3>
+    <pre id="htmlCode"></pre>
+    <button onclick="copyCode()">Copiar Código</button>
 
-<script>
-async function uploadAudio() {
-  const file = document.getElementById('audioFile').files[0];
-  if (!file) return alert('Escolha um arquivo de áudio!');
+    <script>
+        async function uploadAudio() {
+            const file = document.getElementById('audioFile').files[0];
+            if (!file) return alert('Escolha um arquivo de áudio!');
 
-  const formData = new FormData();
-  formData.append('audio', file);
+            const formData = new FormData();
+            formData.append('audio', file);
 
-  try {
-    const response = await fetch('/upload', { method: 'POST', body: formData });
-    const data = await response.json();
+            try {
+                const response = await fetch('/upload', { method: 'POST', body: formData });
+                const data = await response.json();
 
-    if (data.url) {
-      document.getElementById('audioPreview').innerHTML = `
+                if (data.url) {
+                    document.getElementById('audioPreview').innerHTML = `
         <h4>Preview do Áudio:</h4>
         <audio controls>
           <source src="${data.url}" type="audio/mpeg">
@@ -45,26 +47,28 @@ async function uploadAudio() {
         </audio>
       `;
 
-      const html = `<audio controls>
+                    const html = `<audio controls>
   <source src="${data.url}" type="audio/mpeg">
   Seu navegador não suporta o elemento de áudio.
 </audio>`;
-      document.getElementById('htmlCode').textContent = html;
-    } else {
-      alert('Falha ao enviar o áudio.');
-    }
+                    document.getElementById('htmlCode').textContent = html;
+                } else {
+                    alert('Falha ao enviar o áudio.');
+                }
 
-  } catch (err) {
-    console.error(err);
-    alert('Erro ao enviar o arquivo.');
-  }
-}
+            } catch (err) {
+                console.error(err);
+                alert('Erro ao enviar o arquivo.');
+            }
+        }
 
-function copyCode() {
-  const code = document.getElementById('htmlCode').textContent;
-  navigator.clipboard.writeText(code).then(() => alert('Código copiado!'));
-}
-</script>
-
+        function copyCode() {
+            const code = document.getElementById('htmlCode').textContent;
+            navigator.clipboard.writeText(code).then(() => alert('Código copiado!'));
+        }
+    </script>
+    <footer>
+        <p>Desenvolvido por Sandy Piropo</p>
 </body>
+
 </html>

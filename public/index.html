@@ -13,7 +13,6 @@
 </head>
 
 <body>
-
     <div class="navbar">
         <div class="left-items">
             <h2 class="titulo">Blogger</h2>
@@ -24,15 +23,14 @@
                 <input type="checkbox" id="toggle" />
                 <div class="switch"></div>
                 <svg viewBox="0 0 24 24" class="icon sun">
-                    <path
-                        d="M12,17c-2.76,0-5-2.24-5-5s2.24-5,5-5,5,2.24,5,5-2.24,5-5,5ZM13,0h-2V5h2V0Zm0,19h-2v5h2v-5ZM5,11H0v2H5v-2Zm19,0h-5v2h5v-2Zm-2.81-6.78l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54ZM7.76,17.66l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54Zm0-11.31l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Zm13.44,13.44l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Z" />
+                    <path d="M12,17c-2.76,0-5-2.24-5-5s2.24-5,5-5,5,2.24,5,5-2.24,5-5,5Z" />
                 </svg>
                 <svg viewBox="0 0 24 24" class="icon moon">
                     <path
                         d="M12.009,24A12.067,12.067,0,0,1,.075,10.725,12.121,12.121,0,0,1,10.1.152a13,13,0,0,1,5.03.206,2.5,2.5,0,0,1,1.8,1.8,2.47,2.47,0,0,1-.7,2.425c-4.559,4.168-4.165,10.645.807,14.412h0a2.5,2.5,0,0,1-.7,4.319A13.875,13.875,0,0,1,12.009,24Z" />
                 </svg>
             </label>
-            <h2 class="instrucoes">?</h2>
+            <h2 class="instrucoes" id="openModal">?</h2>
         </div>
     </div>
 
@@ -64,7 +62,6 @@
                 <button id="backButton" onclick="goBack()"></button>
             </div>
 
-
             <p class="drag-text">Ou, arraste o arquivo para cá.</p>
         </div>
 
@@ -83,11 +80,10 @@
     <h3 id="audioTitle" style="display:none;">Prévia do Áudio:</h3>
     <div id="audioPreview" style="display:none;"></div>
 
-
     <footer class="footer">
         <div class="footer-items">
             <span>© 2025 Desenvolvido por Sandy Piropo</span>
-            <a class="github-link" href="https://github.com/seu-usuario" target="_blank" rel="noopener noreferrer">
+            <a class="github-link" href="https://github.com/sandypiropo" target="_blank" rel="noopener noreferrer">
                 <svg class="github-icon" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 
               3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 
@@ -106,6 +102,21 @@
             </a>
         </div>
     </footer>
+
+    <!-- Modal de Instruções -->
+    <div id="instructionModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <h2>Como funciona o Audio Uploader</h2>
+            <p>Envie um arquivo de áudio e gere automaticamente um player HTML incorporável.</p>
+            <ul>
+                <li>Clique em <strong>“Selecionar arquivo de áudio”</strong> ou arraste o áudio para a área
+                    tracejada.</li>
+                <li> Aguarde o upload e o processamento.</li>
+                <li> Copie o código HTML gerado para incorporar o player onde quiser.</li>
+            </ul>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

@@ -126,3 +126,24 @@ toggleSwitch.addEventListener('change', () => {
     document.body.classList.toggle('dark-theme', isDark);
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
 });
+
+const instrucoesBtn = document.querySelector(".instrucoes");
+const modal = document.getElementById("instructionModal");
+const closeModal = document.getElementById("closeModal");
+
+// Abre o modal
+instrucoesBtn.addEventListener("click", () => {
+    modal.style.display = "flex";
+});
+
+// Fecha o modal ao clicar no X
+closeModal.addEventListener("click", () => {
+    modal.style.display = "none";
+});
+
+// Fecha o modal ao clicar fora dele
+window.addEventListener("click", (e) => {
+    if (e.target === modal) {
+        modal.style.display = "none";
+    }
+});

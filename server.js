@@ -6,7 +6,9 @@ const cors = require('cors');
 const path = require('path');
 
 const app = express();
-const upload = multer({ dest: 'uploads/' });
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -19,14 +21,24 @@ cloudinary.config({
 
 app.post('/upload', upload.single('audio'), async (req, res) => {
   try {
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      resource_type: 'raw', 
-      folder: 'blogger-audio'
-    });
-    res.json({ url: result.secure_url });
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        resource_type: 'raw',
+        folder: 'blogger-audio'
+      },
+      (error, result) => {
+        if (error) {
+          console.error(error);
+          return res.status(500).json({ error: 'Falha ao enviar o arquivo.' });
+        }
+        res.json({ url: result.secure_url });
+      }
+    );
+
+    stream.end(req.file.buffer);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Falha ao enviar o arquivo.' });
+    res.status(500).json({ error: 'Erro inesperado.' });
   }
 });
 

@@ -138,19 +138,49 @@ button {
     fill: #ffffff;
 }
 
+/* ===== DROPZONE ===== */
 .drop-zone {
-    margin-top: 40px;
-    padding: 40px;
     border: 2px dashed #ff6200;
     border-radius: 12px;
-    background-color: rgba(255, 98, 0, 0.05);
+    padding: 50px;
     text-align: center;
-    transition: 0.3s;
+    background-color: #3131316c;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    max-width: 600px;
+    margin: 40px auto;
+}
+
+.drop-zone:hover {
+    background-color: #353434;
+    border-color: #ffa45c;
+    transform: scale(1.02);
 }
 
 .drop-zone.dragover {
-    background-color: rgba(255, 98, 0, 0.15);
-    border-color: #ffffff;
+    background-color: #444;
+    border-color: #00ff88;
+    color: #00ff88;
+}
+
+/* ===== BARRA DE CARREGAMENTO ===== */
+.progress-container {
+    width: 80%;
+    margin: 20px auto;
+    height: 6px;
+    background-color: #444;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background-color: #00ff88;
+    transition: width 0.3s ease-in-out;
+    border-radius: 4px;
 }
 
 .custom-file-upload {
@@ -179,4 +209,62 @@ button {
     margin-top: 20px;
     color: #bbbbbb;
     font-size: 14px;
+}
+
+
+.upload-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    animation: fadeIn 0.6s ease;
+}
+
+.check-icon {
+    width: 70px;
+    height: 70px;
+    filter: drop-shadow(0 0 6px #00c853aa);
+}
+
+
+#backButton {
+    background-color: #ff6200;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#backButton:hover {
+    background-color: #e45800;
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

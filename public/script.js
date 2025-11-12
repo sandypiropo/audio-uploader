@@ -113,3 +113,16 @@ function copyCode() {
 function goBack() {
     window.location.reload();
 }
+
+const toggleSwitch = document.getElementById('toggle');
+
+if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-theme');
+    toggleSwitch.checked = true;
+}
+
+toggleSwitch.addEventListener('change', () => {
+    const isDark = toggleSwitch.checked;
+    document.body.classList.toggle('dark-theme', isDark);
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+});

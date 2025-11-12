@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <title>Audio Uploader</title>
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Tema escuro do Highlight.js -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 </head>
 
 <body>
@@ -42,16 +47,28 @@
                 <img src="https://img.icons8.com/?size=100&id=sS9BhCLXllbV&format=png&color=00c853" alt="Sucesso"
                     class="check-icon" />
                 <p id="uploadedFileName"></p>
-                <button id="backButton" onclick="goBack()">⟳</button>
             </div>
 
             <p class="drag-text">Ou, arraste o arquivo para cá.</p>
         </div>
 
-        <div id="audioPreview"></div>
         <h3 id="codeTitle" style="display:none;">Código HTML:</h3>
-        <pre id="htmlCode" style="display:none;"></pre>
-        <button id="copyBtn" onclick="copyCode()" style="display:none;">Copiar Código</button>
+
+        <div id="codeContainer" class="code-container" style="display:none;">
+            <div class="copy-btn" id="copyBtn" onclick="copyCode()" title="Copiar código">
+                <p>copiar</p>
+                <img id="copyIcon" src="https://img.icons8.com/?size=100&id=cvB6JC7HJn9v&format=png&color=ff6200"
+                    alt="Copiar">
+            </div>
+            <pre><code id="htmlCode" class="language-html"></code></pre>
+        </div>
+    </div>
+
+    <h3 id="audioTitle" style="display:none;">Prévia do Áudio:</h3>
+    <div id="audioPreview" style="display:none;"></div>
+
+    <div id="reloadContainer" style="display:none;">
+        <button id="backButton" onclick="goBack()">⟳ Recarregar</button>
     </div>
 
     <footer class="footer">
@@ -60,18 +77,18 @@
             <a class="github-link" href="https://github.com/seu-usuario" target="_blank" rel="noopener noreferrer">
                 <svg class="github-icon" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 
-            3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 
-            0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61 
-            -.546-1.387-1.333-1.757-1.333-1.757-1.087-.744.084-.729.084-.729 
-            1.205.084 1.84 1.237 1.84 1.237 1.07 1.835 2.807 1.304 3.492.997 
-            .108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.334-5.466-5.93 
-            0-1.31.468-2.38 1.236-3.22-.135-.303-.54-1.523.105-3.176 
-            0 0 1.005-.322 3.3 1.23a11.52 11.52 0 0 1 3.003-.403 
-            c1.02.005 2.045.138 3.003.403 2.28-1.552 3.285-1.23 3.285-1.23 
-            .645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 
-            0 4.61-2.807 5.625-5.48 5.92.43.37.81 1.096.81 2.22 
-            0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57 
-            C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+              3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 
+              0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61 
+              -.546-1.387-1.333-1.757-1.333-1.757-1.087-.744.084-.729.084-.729 
+              1.205.084 1.84 1.237 1.84 1.237 1.07 1.835 2.807 1.304 3.492.997 
+              .108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.334-5.466-5.93 
+              0-1.31.468-2.38 1.236-3.22-.135-.303-.54-1.523.105-3.176 
+              0 0 1.005-.322 3.3 1.23a11.52 11.52 0 0 1 3.003-.403 
+              c1.02.005 2.045.138 3.003.403 2.28-1.552 3.285-1.23 3.285-1.23 
+              .645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 
+              0 4.61-2.807 5.625-5.48 5.92.43.37.81 1.096.81 2.22 
+              0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57 
+              C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
                 </svg>
             </a>
         </div>

@@ -1,3 +1,4 @@
+// ======= SELETORES =======
 const dropZone = document.getElementById("dropZone");
 const audioInput = document.getElementById("audioFile");
 const fileName = document.getElementById("fileName");
@@ -7,13 +8,17 @@ const uploadLabel = document.getElementById("uploadLabel");
 const uploadSuccess = document.getElementById("uploadSuccess");
 const uploadedFileName = document.getElementById("uploadedFileName");
 const dragText = document.querySelector(".drag-text");
+const reloadContainer = document.getElementById("reloadContainer");
 
 audioInput.addEventListener("change", handleFileSelect);
+
 dropZone.addEventListener("dragover", e => {
     e.preventDefault();
     dropZone.classList.add("dragover");
 });
+
 dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
+
 dropZone.addEventListener("drop", e => {
     e.preventDefault();
     dropZone.classList.remove("dragover");
@@ -51,28 +56,39 @@ function startUpload(file) {
 
     xhr.onload = () => {
         progressBar.style.width = "100%";
-        const data = JSON.parse(xhr.responseText);
+
+        // Simula retorno de servidor
+        const data = { url: URL.createObjectURL(file) };
+
         setTimeout(() => {
             progressContainer.style.display = "none";
+            fileName.style.display = "none";
             uploadSuccess.style.display = "flex";
             uploadedFileName.textContent = "Upload completo — " + file.name;
-
-            document.getElementById("audioPreview").innerHTML = `
-        <h4>Preview do Áudio:</h4>
-        <audio controls>
-          <source src="${data.url}" type="audio/mpeg">
-          Seu navegador não suporta o elemento de áudio.
-        </audio>`;
+            reloadContainer.style.display = "block";
 
             const html = `<audio controls>
   <source src="${data.url}" type="audio/mpeg">
   Seu navegador não suporta o elemento de áudio.
 </audio>`;
 
-            document.getElementById("htmlCode").textContent = html;
+            const codeElem = document.getElementById("htmlCode");
+
+            codeElem.innerHTML = hljs.highlight(html, { language: 'html' }).value;
+
+            document.getElementById("codeContainer").style.display = "block";
             document.getElementById("codeTitle").style.display = "block";
-            document.getElementById("htmlCode").style.display = "block";
-            document.getElementById("copyBtn").style.display = "inline-block";
+
+            const audioPreview = document.getElementById("audioPreview");
+            const audioTitle = document.getElementById("audioTitle");
+
+            audioPreview.innerHTML = `<audio controls>
+  <source src="${data.url}" type="audio/mpeg">
+  Seu navegador não suporta o elemento de áudio.
+</audio>`;
+
+            audioPreview.style.display = "block";
+            audioTitle.style.display = "block";
         }, 800);
     };
 
@@ -82,7 +98,16 @@ function startUpload(file) {
 
 function copyCode() {
     const code = document.getElementById("htmlCode").textContent;
-    navigator.clipboard.writeText(code).then(() => alert("Código copiado!"));
+    const icon = document.getElementById("copyIcon");
+
+    navigator.clipboard.writeText(code).then(() => {
+        icon.src = "https://img.icons8.com/?size=100&id=3061&format=png&color=ff6200";
+        icon.title = "Copiado!";
+        setTimeout(() => {
+            icon.src = "https://img.icons8.com/?size=100&id=cvB6JC7HJn9v&format=png&color=ff6200";
+            icon.title = "Copiar código";
+        }, 2000);
+    });
 }
 
 function goBack() {

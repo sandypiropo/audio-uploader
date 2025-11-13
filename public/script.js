@@ -11,14 +11,11 @@ const dragText = document.querySelector(".drag-text");
 const reloadContainer = document.getElementById("reloadContainer");
 
 audioInput.addEventListener("change", handleFileSelect);
-
 dropZone.addEventListener("dragover", e => {
     e.preventDefault();
     dropZone.classList.add("dragover");
 });
-
 dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
-
 dropZone.addEventListener("drop", e => {
     e.preventDefault();
     dropZone.classList.remove("dragover");
@@ -42,10 +39,12 @@ function startUpload(file) {
     progressContainer.style.display = "block";
 
     const formData = new FormData();
-    formData.append("audio", file);
+    formData.append("file", file);
+    formData.append("upload_preset", "upblogger"); 
+    formData.append("cloud_name", "dgjn0q01p"); 
 
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "/upload", true);
+    xhr.open("POST", "https://api.cloudinary.com/v1_1/dgjn0q01p/auto/upload");
 
     xhr.upload.onprogress = e => {
         if (e.lengthComputable) {
@@ -55,25 +54,23 @@ function startUpload(file) {
     };
 
     xhr.onload = () => {
-        progressBar.style.width = "100%";
+        if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            const fileUrl = response.secure_url;
 
-        // Simula retorno de servidor
-        const data = { url: URL.createObjectURL(file) };
-
-        setTimeout(() => {
             progressContainer.style.display = "none";
             fileName.style.display = "none";
             uploadSuccess.style.display = "flex";
             uploadedFileName.textContent = "Upload completo — " + file.name;
             reloadContainer.style.display = "block";
 
+            // ======= Gera o código HTML para o usuário copiar =======
             const html = `<audio controls>
-  <source src="${data.url}" type="audio/mpeg">
+  <source src="${fileUrl}" type="audio/mpeg">
   Seu navegador não suporta o elemento de áudio.
 </audio>`;
 
             const codeElem = document.getElementById("htmlCode");
-
             codeElem.innerHTML = hljs.highlight(html, { language: 'html' }).value;
 
             document.getElementById("codeContainer").style.display = "block";
@@ -82,20 +79,19 @@ function startUpload(file) {
             const audioPreview = document.getElementById("audioPreview");
             const audioTitle = document.getElementById("audioTitle");
 
-            audioPreview.innerHTML = `<audio controls>
-  <source src="${data.url}" type="audio/mpeg">
-  Seu navegador não suporta o elemento de áudio.
-</audio>`;
-
+            audioPreview.innerHTML = html;
             audioPreview.style.display = "block";
             audioTitle.style.display = "block";
-        }, 800);
+        } else {
+            alert("Erro no upload para o Cloudinary.");
+        }
     };
 
     xhr.onerror = () => alert("Erro no upload.");
     xhr.send(formData);
 }
 
+// ======= BOTÃO DE CÓPIA DO CÓDIGO =======
 function copyCode() {
     const code = document.getElementById("htmlCode").textContent;
     const icon = document.getElementById("copyIcon");
@@ -110,10 +106,12 @@ function copyCode() {
     });
 }
 
+// ======= BOTÃO DE RECARREGAR =======
 function goBack() {
     window.location.reload();
 }
 
+// ======= TEMA ESCURO/CLARO =======
 const toggleSwitch = document.getElementById('toggle');
 
 if (localStorage.getItem('theme') === 'dark') {
@@ -127,6 +125,7 @@ toggleSwitch.addEventListener('change', () => {
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
 });
 
+// ======= MODAL DE INSTRUÇÕES =======
 const instrucoesBtn = document.querySelector(".instrucoes");
 const modal = document.getElementById("instructionModal");
 const closeModal = document.getElementById("closeModal");

@@ -43,6 +43,7 @@ Agora, com apenas **dois cliques** — selecionar o áudio e copiar o código �
 * Suporte a múltiplos uploads simultâneos.
 * Escolha de diferentes players
 * Integração com APIs de transcrição automática.
+* Botão de compartilhamento via whatsapp
 
 ---
 
